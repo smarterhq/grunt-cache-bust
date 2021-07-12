@@ -97,12 +97,7 @@ module.exports = function(grunt) {
 
         // Go through each source file and replace them with busted file if available
         var map = opts.queryString ? {} : assetMap;
-
-        var files = [];
-        this.files.forEach(function (v) {
-            files = files.concat(getFilesToBeRenamed([v], map, opts.baseDir))
-        });
-
+        var files = getFilesToBeRenamed(this.files, map, opts.baseDir);
         files.forEach(replaceInFile);
         grunt.log.ok(files.length + ' file' + (files.length !== 1 ? 's ' : ' ') + 'busted.');
 
@@ -127,7 +122,7 @@ module.exports = function(grunt) {
                 ];
                 // find relative paths for shared dirs
                 var originalDirParts = path.dirname(original).split('/');
-                for (var i = 1; i <= fileDepth; i++) {
+                for (var i = 0; i <= fileDepth; i++) {
                     var fileDir = originalDirParts.slice(0, i).join('/');
                     var baseDir = baseDirs.slice(0, i).join('/');
                     if (fileDir === baseDir) {
